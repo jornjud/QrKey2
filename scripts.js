@@ -215,6 +215,6 @@ window.onload = function() {
     const decodedContentElement = document.getElementById('decodedContent');
     if (encodedText && decodedContentElement) {
         const decodedText = decrypt(encodedText, '');
-        decodedContentElement.innerHTML = `<strong>ข้อความที่ถอดรหัสแล้ว:</strong><br>${decodedText}`;
+        decodedContentElement.innerHTML = `<strong>ข้อความที่ถอดรหัสแล้ว/ข้อความที่ต้องใส่คีย์เวิร์ดก่อน:</strong><br>${decodedText}`;
     }
 };
