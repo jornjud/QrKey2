@@ -80,7 +80,7 @@ function decrypt(encodedText, keyword) {
 
 function generateQRCode(text) {
     const encodedText = encodeURIComponent(text);
-    const qrCodeText = `https://jornjud.github.io/Qrkey/decoder.html?text=${encodedText}`;
+    const qrCodeText = `https://github.com/jornjud/QrKey2/decoder.html?text=${encodedText}`;
     const qrcode = document.getElementById('qrcode');
     if (qrcode) {
         qrcode.innerHTML = "";  // ล้าง QR Code เก่า
