@@ -76,14 +76,25 @@ button:hover {
 .qrcode-outer-container {
     margin: 20px 0;
     padding: 20px;
-    border: 2px solid var(--border-color);
-    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .qrcode-inner-container {
+    display: inline-block;
+    position: relative;
+}
+
+#qrcode {
     display: flex;
     justify-content: center;
-    margin-bottom: 15px;
+    align-items: center;
+}
+
+#qrcode img {
+    max-width: 100%;
+    height: auto;
 }
 
 .qrcode-link {

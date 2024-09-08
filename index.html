@@ -3,32 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QrKey2</title>
+    <title>QrKey2 - แปลงเป็น SQRC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <h1>QrKey2</h1>
-        <input type="text" id="sourceText" placeholder="ใส่ข้อความที่ต้องการแปลง">
+        <p>เปลี่ยนข้อความธรรมดาให้เป็น SQRC QrCode แบบเข้ารหัส</p>
+        
+        <input type="text" id="sourceText" placeholder="ใส่ข้อความที่ต้องการเข้ารหัส">
         <input type="text" id="keyword" placeholder="ใส่คีย์เวิร์ด (ถ้ามี)">
         <button id="convertButton">แปลงเป็น SQRC</button>
         
+        <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+        <button onclick="document.getElementById('imageUpload').click()">อัพโหลดรูปภาพ</button>
+        <img id="uploadedImage" style="display: none;">
+
         <div class="qrcode-outer-container">
             <div class="qrcode-inner-container">
                 <div id="qrcode"></div>
             </div>
-            <div id="qrcode-link" class="qrcode-link"></div>
         </div>
         
+        <div id="qrcode-link" class="qrcode-link"></div>
+
         <div class="button-group">
             <button id="saveButton">บันทึก QR Code</button>
             <button id="shareButton">แชร์ QR Code</button>
         </div>
-        
+
         <button id="copyButton">คัดลอกผลลัพธ์</button>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script src="scripts.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>

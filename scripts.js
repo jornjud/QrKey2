@@ -78,20 +78,67 @@ function decrypt(encodedText, keyword) {
     return decodeThaiEng(text, seed, keyword);
 }
 
+// ฟังก์ชันสำหรับการอัพโหลดรูปภาพและแสดงใน QR Code
+document.getElementById('imageUpload').addEventListener('change', function(event) {
+    const file = event.target.files[0];  // รับไฟล์จากผู้ใช้งาน
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        const imgElement = document.getElementById('uploadedImage');
+        imgElement.src = e.target.result;  // ตั้งค่ารูปภาพที่อัพโหลด
+        imgElement.style.display = 'block';  // แสดงรูปภาพ
+        imgElement.style.width = '50px';  // ปรับขนาดของรูปภาพ
+        imgElement.style.height = '50px';  // ปรับขนาดของรูปภาพ
+    };
+
+    if (file) {
+        reader.readAsDataURL(file);  // อ่านไฟล์ภาพและแปลงเป็น data URL
+    }
+});
+
 function generateQRCode(text) {
     const encodedText = encodeURIComponent(text);
     const qrCodeText = `https://jornjud.github.io/QrKey2/decoder.html?text=${encodedText}`;
     const qrcode = document.getElementById('qrcode');
     if (qrcode) {
-        qrcode.innerHTML = "";  // ล้าง QR Code เก่า
-        new QRCode(qrcode, {
+        qrcode.innerHTML = "";  // Clear old QR Code
+        
+        // Create a wrapper div for positioning
+        const wrapper = document.createElement('div');
+        wrapper.style.position = 'relative';
+        wrapper.style.width = '300px';
+        wrapper.style.height = '300px';
+        
+        // Create the QR code
+        new QRCode(wrapper, {
             text: qrCodeText,
             width: 300,
             height: 300,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
         });
+        
+        // Add orange border
+        wrapper.style.border = '10px solid #FFA500';
+        wrapper.style.boxSizing = 'border-box';
+        
+        // Add uploaded image to the center
+        const uploadedImage = document.getElementById('uploadedImage');
+        if (uploadedImage.src) {
+            const centerImage = document.createElement('img');
+            centerImage.src = uploadedImage.src;
+            centerImage.style.position = 'absolute';
+            centerImage.style.top = '50%';
+            centerImage.style.left = '50%';
+            centerImage.style.transform = 'translate(-50%, -50%)';
+            centerImage.style.width = '50px';
+            centerImage.style.height = '50px';
+            centerImage.style.borderRadius = '50%';
+            wrapper.appendChild(centerImage);
+        }
+        
+        qrcode.appendChild(wrapper);
 
         const linkElement = document.getElementById('qrcode-link');
         if (linkElement) {
@@ -112,29 +159,32 @@ function updateTranslation() {
 function saveQRCode() {
     const qrcode = document.getElementById('qrcode');
     if (qrcode) {
-        const img = qrcode.querySelector('img');
-        if (img) {
+        html2canvas(qrcode).then(canvas => {
             const link = document.createElement('a');
             link.download = 'qrcode.png';
-            link.href = img.src;
+            link.href = canvas.toDataURL();
             link.click();
-        }
+        });
     }
 }
 
 function shareQRCode() {
-    const qrcodeLink = document.getElementById('qrcode-link');
-    if (qrcodeLink) {
-        const link = qrcodeLink.textContent;
-        if (navigator.share) {
-            navigator.share({
-                title: 'SQRC QR Code',
-                text: 'Check out this SQRC QR Code',
-                url: link
-            }).catch(console.error);
-        } else {
-            alert('Web Share API is not supported in your browser. You can manually copy the link: ' + link);
-        }
+    const qrcode = document.getElementById('qrcode');
+    if (qrcode) {
+        html2canvas(qrcode).then(canvas => {
+            canvas.toBlob(blob => {
+                const file = new File([blob], "qrcode.png", { type: "image/png" });
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'SQRC QR Code',
+                        text: 'Check out this SQRC QR Code',
+                        files: [file]
+                    }).catch(console.error);
+                } else {
+                    alert('Web Share API is not supported in your browser. You can save the QR code and share it manually.');
+                }
+            });
+        });
     }
 }
 
