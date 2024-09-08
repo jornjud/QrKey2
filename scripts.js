@@ -71,7 +71,7 @@ function encrypt(text, keyword) {
 
 function decrypt(encodedText, keyword) {
     if (!keyword) {
-        return encodedText.slice(4);
+        return encodedText;  // ไม่ตัด 4 ตัวอักษรแรก ถ้าไม่มีคีย์เวิร์ด
     }
     const seed = encodedText.slice(0, 4);
     const text = encodedText.slice(4);
