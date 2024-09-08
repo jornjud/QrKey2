@@ -30,8 +30,9 @@ body {
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 90%;
     max-width: 500px;
-    width: 100%;
+    margin: 0 auto;
 }
 
 h1 {
@@ -46,7 +47,7 @@ p {
     text-align: center;
 }
 
-input[type="text"], button {
+input[type="text"], button, .upload-btn {
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
@@ -61,16 +62,30 @@ input[type="text"]:focus {
     border-color: var(--primary-color);
 }
 
-button {
+button, .upload-btn {
     background-color: var(--primary-color);
     color: white;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    text-align: center;
+    display: inline-block;
 }
 
-button:hover {
+button:hover, .upload-btn:hover {
     background-color: var(--secondary-color);
+}
+
+#imageUpload {
+    display: none;
+}
+
+.upload-btn {
+    background-color: var(--highlight-color);
+}
+
+.upload-btn:hover {
+    background-color: #e5ac00;
 }
 
 .qrcode-outer-container {
@@ -84,6 +99,8 @@ button:hover {
 .qrcode-inner-container {
     display: inline-block;
     position: relative;
+    width: 100%;
+    max-width: 300px;
 }
 
 #qrcode {
@@ -114,17 +131,9 @@ button:hover {
     width: 48%;
 }
 
-#decodedContent {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    border: 1px solid var(--border-color);
-    word-break: break-all;
-}
-
 @media (max-width: 480px) {
     .container {
+        width: 95%;
         padding: 20px;
     }
 
@@ -132,7 +141,7 @@ button:hover {
         font-size: 20px;
     }
 
-    input[type="text"], button {
+    input[type="text"], button, .upload-btn {
         padding: 10px;
         font-size: 14px;
     }

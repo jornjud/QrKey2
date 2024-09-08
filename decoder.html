@@ -4,15 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔍 ถอดรหัสปริศนา</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .decoder-container {
+            text-align: center;
+            padding: 20px;
+        }
+        #decodedContent {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            word-break: break-all;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container decoder-container">
         <h1>🔍 ถอดรหัสปริศนา</h1>
-        <input type="text" id="keyword" placeholder="ใส่คีย์เวิร์ด">
+        
+        <input type="text" id="keyword" placeholder="ใส่คีย์เวิร์ด (ถ้ามี)">
         <button id="decodeButton">🔓 ถอดรหัส</button>
+        
         <div id="decodedContent"></div>
     </div>
-    <script src="scripts.js" defer></script>
+
+    <script src="scripts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const encodedText = urlParams.get('text');
+            const keywordElement = document.getElementById('keyword');
+            const decodedContentElement = document.getElementById('decodedContent');
+            const decodeButton = document.getElementById('decodeButton');
+            
+            function decodeText() {
+                if (encodedText) {
+                    const keyword = keywordElement.value;
+                    const decodedText = decrypt(decodeURIComponent(encodedText), keyword);
+                    decodedContentElement.innerHTML = `<strong>ข้อความที่ถอดรหัสแล้ว:</strong><br>${decodedText}`;
+                } else {
+                    decodedContentElement.innerHTML = 'ไม่พบข้อความที่เข้ารหัส';
+                }
+            }
+            
+            if (decodeButton) {
+                decodeButton.addEventListener('click', decodeText);
+            }
+            
+            if (keywordElement) {
+                keywordElement.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        decodeText();
+                    }
+                });
+            }
+            
+            // ถอดรหัสอัตโนมัติเมื่อโหลดหน้าถ้าไม่มี keyword
+            if (encodedText) {
+                decodeText();
+            }
+        });
+    </script>
 </body>
 </html>
