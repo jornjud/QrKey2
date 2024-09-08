@@ -161,7 +161,7 @@ function decodeText() {
         
         if (encodedText) {
             const decodedText = decrypt(encodedText, keyword);
-            decodedContentElement.innerHTML = `<strong>ข้อความที่ถอดรหัสแล้ว:</strong><br>${decodedText}`;
+            decodedContentElement.innerHTML = `<strong>ข้อความที่ถอดรหัสแล้ว/ข้อความที่ต้องใส่คีย์เวิร์ดก่อน:</strong><br>${decodedText}`;
         } else {
             alert('ไม่พบข้อความที่เข้ารหัส');
         }
