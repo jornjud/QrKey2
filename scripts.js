@@ -85,36 +85,19 @@ function generateQRCode(text) {
     if (qrcode) {
         qrcode.innerHTML = "";  // ล้าง QR Code เก่า
         
-        // สร้าง wrapper div สำหรับการจัดตำแหน่ง
-        const wrapper = document.createElement('div');
-        wrapper.style.position = 'relative';
-        wrapper.style.width = '100%';
-        wrapper.style.paddingBottom = '100%'; // สร้าง aspect ratio 1:1
-        wrapper.style.maxWidth = '300px';
-        wrapper.style.margin = '0 auto';
-        
         // สร้าง QR code
-        const qrWrapper = document.createElement('div');
-        qrWrapper.style.position = 'absolute';
-        qrWrapper.style.top = '0';
-        qrWrapper.style.left = '0';
-        qrWrapper.style.width = '100%';
-        qrWrapper.style.height = '100%';
-        
-        new QRCode(qrWrapper, {
+        new QRCode(qrcode, {
             text: qrCodeText,
-            width: '100%',
-            height: '100%',
+            width: 256,
+            height: 256,
             colorDark: "#000000",
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.H
         });
         
-        wrapper.appendChild(qrWrapper);
-        
         // เพิ่มกรอบสีส้ม
-        wrapper.style.border = '10px solid #FFA500';
-        wrapper.style.boxSizing = 'border-box';
+        qrcode.style.border = '10px solid #FFA500';
+        qrcode.style.display = 'inline-block';
         
         // เพิ่มรูปภาพที่อัพโหลดตรงกลาง
         const uploadedImage = document.getElementById('uploadedImage');
@@ -128,10 +111,8 @@ function generateQRCode(text) {
             centerImage.style.width = '20%';
             centerImage.style.height = '20%';
             centerImage.style.borderRadius = '50%';
-            wrapper.appendChild(centerImage);
+            qrcode.appendChild(centerImage);
         }
-        
-        qrcode.appendChild(wrapper);
 
         const linkElement = document.getElementById('qrcode-link');
         if (linkElement) {

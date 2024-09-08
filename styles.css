@@ -99,8 +99,6 @@ button:hover, .upload-btn:hover {
 .qrcode-inner-container {
     display: inline-block;
     position: relative;
-    width: 100%;
-    max-width: 300px;
 }
 
 #qrcode {
