@@ -1,3 +1,4 @@
+<!-- decoder.html -->
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -18,15 +19,20 @@
             background-color: #f9f9f9;
             border-radius: 5px;
             border: 1px solid var(--border-color);
-            word-break: break-word; /* ป้องกันข้อความยาวเกินขอบ */
-            max-height: 300px; /* จำกัดความสูงของกล่องข้อความ */
-            overflow-y: auto; /* เพิ่มการเลื่อนอัตโนมัติเมื่อข้อความยาว */
-            white-space: pre-wrap; /* คงรูปแบบการแบ่งบรรทัดของข้อความ */
-            text-align: left; /* จัดข้อความให้อยู่ทางซ้าย */
+            word-break: break-word;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            text-align: left;
         }
 
         #decodeButton {
             margin-top: 10px;
+        }
+
+        #hintMessage {
+            margin-top: 10px;
+            color: var(--primary-color);
         }
     </style>
 </head>
@@ -37,6 +43,7 @@
         <input type="text" id="keyword" placeholder="🔑ใส่คีย์เวิร์ด (ถ้ามี)">
         <button id="decodeButton">🔓🔑 ถอดรหัส</button>
         
+        <div id="hintMessage"></div> <!-- Display the hint here -->
         <div id="decodedContent"></div>
     </div>
 
@@ -45,15 +52,21 @@
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const encodedText = urlParams.get('text');
+            const hint = urlParams.get('hint');  // Get the hint from URL
             const keywordElement = document.getElementById('keyword');
             const decodedContentElement = document.getElementById('decodedContent');
             const decodeButton = document.getElementById('decodeButton');
-            
+            const hintMessage = document.getElementById('hintMessage');
+
+            if (hint) {
+                hintMessage.textContent = `💡 คำใบ้: ${decodeURIComponent(hint)}`;
+            }
+
             function decodeText() {
                 if (encodedText) {
                     const keyword = keywordElement.value;
                     const decodedText = decrypt(decodeURIComponent(encodedText), keyword);
-                    decodedContentElement.innerHTML = `<strong>ข้อความที่ถอดรหัสแล้ว/ข้อความที่ต้องใส่คีย์เวิร์ดก่อน:</strong><br>${decodedText}`;
+                    decodedContentElement.innerHTML = `<strong>ข้อความที่ถอดรหัสแล้ว/ข้อความที่ต้องใส่🔑คีย์เวิร์ด:</strong><br>${decodedText}`;
                 } else {
                     decodedContentElement.innerHTML = 'ไม่พบข้อความที่เข้ารหัส';
                 }
@@ -70,8 +83,7 @@
                     }
                 });
             }
-            
-            // ถอดรหัสอัตโนมัติเมื่อโหลดหน้าถ้าไม่มี keyword
+
             if (encodedText) {
                 decodeText();
             }

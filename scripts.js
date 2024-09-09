@@ -78,9 +78,10 @@ function decrypt(encodedText, keyword) {
     return decodeThaiEng(text, seed, keyword);
 }
 
-function generateQRCode(text) {
+function generateQRCode(text, hint) {
     const encodedText = encodeURIComponent(text);
-    const qrCodeText = `https://jornjud.github.io/QrKey2/decoder.html?text=${encodedText}`;
+    const encodedHint = encodeURIComponent(hint || '');  // Encode hint if provided
+    const qrCodeText = `https://jornjud.github.io/QrKey2/decoder.html?text=${encodedText}&hint=${encodedHint}`;
     const qrcode = document.getElementById('qrcode');
     if (qrcode) {
         qrcode.innerHTML = "";  // ล้าง QR Code เก่า
@@ -138,9 +139,11 @@ function handleImageUpload(event) {
 function updateTranslation() {
     const sourceText = document.getElementById("sourceText");
     const keyword = document.getElementById("keyword");
+    const hint = document.getElementById("hint");  // New hint input
+
     if (sourceText && keyword) {
         const targetText = encrypt(sourceText.value, keyword.value);
-        generateQRCode(targetText);
+        generateQRCode(targetText, hint.value);  // Pass the hint value
     }
 }
 
@@ -196,6 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const imageUpload = document.getElementById('imageUpload');
     const sourceText = document.getElementById('sourceText');
     const keyword = document.getElementById('keyword');
+    const hint = document.getElementById('hint');  // New hint input
 
     if (convertButton) convertButton.addEventListener('click', updateTranslation);
     if (saveButton) saveButton.addEventListener('click', saveQRCode);
@@ -204,4 +208,5 @@ document.addEventListener('DOMContentLoaded', function() {
     if (imageUpload) imageUpload.addEventListener('change', handleImageUpload);
     if (sourceText) sourceText.addEventListener('input', updateTranslation);
     if (keyword) keyword.addEventListener('input', updateTranslation);
+    if (hint) hint.addEventListener('input', updateTranslation);  // Update QR on hint input
 });
