@@ -83,10 +83,11 @@ function generateQRCode(text, hint) {
     const encodedHint = encodeURIComponent(hint || '');  // Encode hint if provided
     const qrCodeText = `https://jornjud.github.io/QrKey2/decoder.html?text=${encodedText}&hint=${encodedHint}`;
     const qrcode = document.getElementById('qrcode');
+    
     if (qrcode) {
-        qrcode.innerHTML = "";  // ล้าง QR Code เก่า
-        
-        // สร้าง QR code
+        qrcode.innerHTML = "";  // Clear existing QR code
+
+        // Create the QR code
         new QRCode(qrcode, {
             text: qrCodeText,
             width: 256,
@@ -96,13 +97,15 @@ function generateQRCode(text, hint) {
             correctLevel: QRCode.CorrectLevel.H
         });
         
-        // เพิ่มกรอบสีส้ม
         qrcode.style.border = '10px solid #FFA500';
         qrcode.style.display = 'inline-block';
-        
-        // เพิ่มรูปภาพที่อัพโหลดตรงกลาง
+
+        // Image or Emoji at center
         const uploadedImage = document.getElementById('uploadedImage');
+        const emoji = document.getElementById('emojiInput').value;
+
         if (uploadedImage.src && uploadedImage.src !== window.location.href) {
+            // If an image is uploaded, show it at the center
             const centerImage = document.createElement('img');
             centerImage.src = uploadedImage.src;
             centerImage.style.position = 'absolute';
@@ -113,6 +116,16 @@ function generateQRCode(text, hint) {
             centerImage.style.height = '20%';
             centerImage.style.borderRadius = '50%';
             qrcode.appendChild(centerImage);
+        } else if (emoji) {
+            // If no image, but emoji is provided
+            const centerEmoji = document.createElement('div');
+            centerEmoji.textContent = emoji;
+            centerEmoji.style.position = 'absolute';
+            centerEmoji.style.top = '50%';
+            centerEmoji.style.left = '50%';
+            centerEmoji.style.transform = 'translate(-50%, -50%)';
+            centerEmoji.style.fontSize = '48px';  // Adjust emoji size
+            qrcode.appendChild(centerEmoji);
         }
 
         const linkElement = document.getElementById('qrcode-link');
@@ -129,8 +142,8 @@ function handleImageUpload(event) {
         reader.onload = function(e) {
             const imgElement = document.getElementById('uploadedImage');
             imgElement.src = e.target.result;
-            imgElement.style.display = 'none';  // ซ่อนรูปภาพจริง แต่เก็บข้อมูลไว้
-            updateTranslation();  // สร้าง QR Code ใหม่พร้อมรูปภาพ
+            imgElement.style.display = 'none';  // Hide actual image but keep data
+            updateTranslation();  // Regenerate QR code with image
         };
         reader.readAsDataURL(file);
     }
@@ -197,6 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const shareButton = document.getElementById('shareButton');
     const copyButton = document.getElementById('copyButton');
     const imageUpload = document.getElementById('imageUpload');
+    const emojiInput = document.getElementById('emojiInput');
     const sourceText = document.getElementById('sourceText');
     const keyword = document.getElementById('keyword');
     const hint = document.getElementById('hint');  // New hint input
