@@ -11,13 +11,22 @@
             text-align: center;
             padding: 20px;
         }
+
         #decodedContent {
             margin-top: 20px;
             padding: 15px;
             background-color: #f9f9f9;
             border-radius: 5px;
             border: 1px solid var(--border-color);
-            word-break: break-all;
+            word-break: break-word; /* ป้องกันข้อความยาวเกินขอบ */
+            max-height: 300px; /* จำกัดความสูงของกล่องข้อความ */
+            overflow-y: auto; /* เพิ่มการเลื่อนอัตโนมัติเมื่อข้อความยาว */
+            white-space: pre-wrap; /* คงรูปแบบการแบ่งบรรทัดของข้อความ */
+            text-align: left; /* จัดข้อความให้อยู่ทางซ้าย */
+        }
+
+        #decodeButton {
+            margin-top: 10px;
         }
     </style>
 </head>
