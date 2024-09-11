@@ -222,7 +222,7 @@ function copyToClipboard() {
     if (qrcodeLink) {
         const link = qrcodeLink.textContent;
         navigator.clipboard.writeText(link).then(() => {
-            alert('คัดลอกลิงก์แล้ว!');
+            alert('🔗 คัดลอกลิงก์แล้ว!');
         }).catch(err => {
             console.error('ไม่สามารถคัดลอกข้อความ: ', err);
         });
