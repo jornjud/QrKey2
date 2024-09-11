@@ -122,9 +122,9 @@ function generateQRCode(text, hint) {
             centerImage.style.top = '50%';
             centerImage.style.left = '50%';
             centerImage.style.transform = 'translate(-50%, -50%)';
-            centerImage.style.width = '20%';
-            centerImage.style.height = '20%';
-            centerImage.style.borderRadius = '50%';
+            centerImage.style.width = '30%';
+            centerImage.style.height = '30%';
+            centerImage.style.borderRadius = '5%';
             qrcode.appendChild(centerImage);
         } else if (emoji) {
             // If no image, but emoji is provided
