@@ -160,6 +160,16 @@ function handleImageUpload(event) {
     }
 }
 
+// ฟังก์ชันลบรูปภาพที่อัปโหลด
+function clearUploadedImage() {
+    const uploadedImage = document.getElementById('uploadedImage');
+    if (uploadedImage) {
+        uploadedImage.src = '';  // ลบ src ของรูปภาพ
+        uploadedImage.style.display = 'none';  // ซ่อนรูปภาพ
+        updateTranslation();  // อัปเดต QR Code โดยไม่ใช้รูปภาพ
+    }
+}
+
 // ฟังก์ชันอัพเดทการแปล
 function updateTranslation() {
     const sourceText = document.getElementById("sourceText");
@@ -218,6 +228,9 @@ function copyToClipboard() {
         });
     }
 }
+
+// เพิ่ม event listener สำหรับปุ่ม clear image
+document.getElementById('clearImageButton').addEventListener('click', clearUploadedImage);
 
 // Event listeners สำหรับการใช้งาน
 document.addEventListener('DOMContentLoaded', function() {
